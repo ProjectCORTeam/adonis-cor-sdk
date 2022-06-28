@@ -35,7 +35,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ProjectCOR/adonis-cor-sdk.git"
+    "url": "git+https://github.com/ProjectCORTeam/adonis-cor-sdk.git"
   },
-  "homepage": "https://github.com/ProjectCOR/adonis-cor-sdk"
+  "homepage": "https://github.com/ProjectCORTeam/adonis-cor-sdk"
 }
