@@ -1185,7 +1185,7 @@ class CorIntegration {
    * @returns {Promise}
    * @memberof CorIntegration
    */
-  updateDivision(company_id, ivision_id, divisionData = {}) {
+  updateDivision(company_id, division_id, divisionData = {}) {
     return new Promise(async (resolve, reject) => {
       if (this.auth_code) {
         this._getToken()
