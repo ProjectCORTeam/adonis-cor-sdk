@@ -26,13 +26,13 @@ const devVariables = require('./environments/development')
 class CorIntegration {
 
   /**
-   * 
+   *
    * @param {Object} Config Default config with basic setup
    */
   constructor(Config) {
     this.config = {}
     this.env = Config.env || devVariables.envName;
-    this.app_domain = Config.app_domain || null    
+    this.app_domain = Config.app_domain || null
     this.auth_code = Config.auth_code || null;
     this.sourceURLs = Config.sourceURLs || {
       sandbox: devVariables.apiEndpoint,
@@ -55,9 +55,9 @@ class CorIntegration {
 
   /**
    * Set config data
-   * 
+   *
    * @param {Object} config
-   * 
+   *
    * @memberof CorIntegration
    */
   set config(config) {
@@ -77,7 +77,7 @@ class CorIntegration {
 
   /**
    * Set environment
-   * 
+   *
    * @param {String} env
    * @memberof CorIntegration
    */
@@ -87,7 +87,7 @@ class CorIntegration {
 
   /**
    * Get Environment
-   * 
+   *
    * @returns {String}
    * @memberof CorIntegration
    */
@@ -97,7 +97,7 @@ class CorIntegration {
 
   /**
    * Set app_domain
-   * 
+   *
    * @param {String} app_domain
    * @memberof CorIntegration
    */
@@ -107,7 +107,7 @@ class CorIntegration {
 
   /**
    * Get app_domain
-   * 
+   *
    * @returns {String}
    * @memberof CorIntegration
    */
@@ -117,7 +117,7 @@ class CorIntegration {
 
   /**
    * Set source URL
-   * 
+   *
    * @param {Object} sourceURLs
    * @memberof CorIntegration
    */
@@ -127,7 +127,7 @@ class CorIntegration {
 
   /**
    * Get source URL
-   * 
+   *
    * @returns {Object}
    * @memberof CorIntegration
    */
@@ -137,7 +137,7 @@ class CorIntegration {
 
   /**
    * Set Authorization Code
-   * 
+   *
    * @param {String} auth_code
    * @memberof CorIntegration
    */
@@ -147,7 +147,7 @@ class CorIntegration {
 
   /**
    * Get Authorization Code
-   * 
+   *
    * @returns {String}
    * @memberof CorIntegration
    */
@@ -197,7 +197,7 @@ class CorIntegration {
 
   /**
    * Sends an Http Request to the endpoint.
-   * 
+   *
    * It receives an object with the basic setup: endpoint (default null),
    * type (default GET), headers and some data to be sent into a form data.
    *
@@ -254,7 +254,7 @@ class CorIntegration {
    * Create an User by passing a user Data
    *
    * @param {Object} [userData={}]
-   * @returns {Promise} 
+   * @returns {Promise}
    * @memberof CorIntegration
    */
   createUser(userData = {}) {
@@ -293,7 +293,7 @@ class CorIntegration {
    * Update an User by passing his ID and JSON data
    *
    * @param {Number} user_id User ID (COR)
-   * @param {Object} [userData={}] 
+   * @param {Object} [userData={}]
    * @returns {Promise}
    * @memberof CorIntegration
    */
@@ -365,7 +365,7 @@ class CorIntegration {
    * Create a Client by passing a Client Data
    *
    * @param {Object} [clientData={}]
-   * @returns {Promise} 
+   * @returns {Promise}
    * @memberof CorIntegration
    */
   createClient(clientData = {}) {
@@ -475,7 +475,7 @@ class CorIntegration {
    * Create a Brand by passing a Brand Data
    *
    * @param {Object} [brandData={}]
-   * @returns {Promise} 
+   * @returns {Promise}
    * @memberof CorIntegration
    */
   createBrand(brandData = {}) {
@@ -585,7 +585,7 @@ class CorIntegration {
    * Create a Product by passing a Product Data
    *
    * @param {Object} [productData={}]
-   * @returns {Promise} 
+   * @returns {Promise}
    * @memberof CorIntegration
    */
   createProduct(productData = {}) {
@@ -696,7 +696,7 @@ class CorIntegration {
    *
    * @param {String} [client_id]
    * @param {Object} [feeData={}]
-   * @returns {Promise} 
+   * @returns {Promise}
    * @memberof CorIntegration
    */
   createFee(client_id, feeData = {}) {
@@ -808,7 +808,7 @@ class CorIntegration {
    * Create a Project by passing a Project Data
    *
    * @param {Object} [projectData={}]
-   * @returns {Promise} 
+   * @returns {Promise}
    * @memberof CorIntegration
    */
   createProject(projectData = {}) {
@@ -919,7 +919,7 @@ class CorIntegration {
    *
    * @param {Number} [project_id]
    * @param {Object} [estimateData={}]
-   * @returns {Promise} 
+   * @returns {Promise}
    * @memberof CorIntegration
    */
   createProjectEstimate(project_id, estimateData = {}) {
@@ -1031,7 +1031,7 @@ class CorIntegration {
    * Create an Hour by passing a data
    *
    * @param {Object} [hourData={}]
-   * @returns {Promise} 
+   * @returns {Promise}
    * @memberof CorIntegration
    */
   createHour(hourData = {}) {
@@ -1140,5 +1140,115 @@ class CorIntegration {
     })
   }
 
+  /**
+  *
+  * @param {Number} company_id
+  * @param {Object} [divisionData={}]
+  * @returns {Promise}
+  * @memberof CorIntegration
+  */
+  createDivision(company_id, divisionData = {}) {
+    return new Promise(async (resolve, reject) => {
+      if (this.auth_code) {
+        this._getToken()
+          .then(async (res) => {
+            try {
+              const endpoint = `company/${company_id}/advertmind-divisions`;
+              const response = await this._sendRequest({
+                endpoint: endpoint,
+                type: 'POST',
+                data: divisionData,
+                headers: {
+                  Authorization: `Bearer ${JSON.parse(res.body).access_token}`
+                }
+              })
+              resolve(response)
+            } catch (error) {
+              reject(error)
+            }
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      } else {
+        reject(new Error('Undefined Authorization Code'))
+      }
+    })
+  }
+
+  /**
+   * Update a Division by passing division_id and Division Data
+   *
+   * @param {Number} company_id
+   * @param {Number} division_id
+   * @param {Object} [divisionData={}]
+   * @returns {Promise}
+   * @memberof CorIntegration
+   */
+  updateDivision(company_id, ivision_id, divisionData = {}) {
+    return new Promise(async (resolve, reject) => {
+      if (this.auth_code) {
+        this._getToken()
+          .then(async (res) => {
+            try {
+              const endpoint = `company/${company_id}/advertmind-divisions/${division_id}`;
+              const response = await this._sendRequest({
+                endpoint: endpoint,
+                type: 'PUT',
+                data: divisionData,
+                headers: {
+                  Authorization: `Bearer ${JSON.parse(res.body).access_token}`
+                }
+              })
+              resolve(response)
+            } catch (error) {
+              reject(error)
+            }
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      } else {
+        reject(new Error('Undefined Authorization Code'))
+      }
+    })
+  }
+
+
+  /**
+  * Delete a Division by passing a division_id
+  *
+  * @param {Number} company_id
+  * @param {Number} division_id
+  * @returns {Promise}
+  * @memberof CorIntegration
+  */
+  deleteDivision(company_id, division_id) {
+    return new Promise(async (resolve, reject) => {
+      if (this.auth_code) {
+        this._getToken()
+          .then(async (res) => {
+            try {
+              const endpoint = `company/${company_id}/advertmind-divisions/${division_id}`;
+              const response = await this._sendRequest({
+                endpoint: endpoint,
+                type: 'DELETE',
+                headers: {
+                  Authorization: `Bearer ${JSON.parse(res.body).access_token}`
+                }
+              })
+              resolve(response)
+            } catch (error) {
+              reject(error)
+            }
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      } else {
+        reject(new Error('Undefined Authorization Code'))
+      }
+    })
+  }
 
 } module.exports = CorIntegration
