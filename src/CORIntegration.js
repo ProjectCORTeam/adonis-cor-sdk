@@ -1142,17 +1142,18 @@ class CorIntegration {
 
   /**
   *
+  * @param {Number} company_id
   * @param {Object} [divisionData={}]
   * @returns {Promise}
   * @memberof CorIntegration
   */
-  createDivision(divisionData = {}) {
+  createDivision(company_id, divisionData = {}) {
     return new Promise(async (resolve, reject) => {
       if (this.auth_code) {
         this._getToken()
           .then(async (res) => {
             try {
-              const endpoint = `/advertmind-divisions`;
+              const endpoint = `company/${company_id}/advertmind-divisions`;
               const response = await this._sendRequest({
                 endpoint: endpoint,
                 type: 'POST',
@@ -1178,18 +1179,19 @@ class CorIntegration {
   /**
    * Update a Division by passing division_id and Division Data
    *
+   * @param {Number} company_id
    * @param {Number} division_id
    * @param {Object} [divisionData={}]
    * @returns {Promise}
    * @memberof CorIntegration
    */
-  updateDivision(division_id, divisionData = {}) {
+  updateDivision(company_id, ivision_id, divisionData = {}) {
     return new Promise(async (resolve, reject) => {
       if (this.auth_code) {
         this._getToken()
           .then(async (res) => {
             try {
-              const endpoint = `/advertmind-divisions/${division_id}`;
+              const endpoint = `company/${company_id}/advertmind-divisions/${division_id}`;
               const response = await this._sendRequest({
                 endpoint: endpoint,
                 type: 'PUT',
@@ -1216,17 +1218,18 @@ class CorIntegration {
   /**
   * Delete a Division by passing a division_id
   *
+  * @param {Number} company_id
   * @param {Number} division_id
   * @returns {Promise}
   * @memberof CorIntegration
   */
-  deleteDivision(division_id) {
+  deleteDivision(company_id, division_id) {
     return new Promise(async (resolve, reject) => {
       if (this.auth_code) {
         this._getToken()
           .then(async (res) => {
             try {
-              const endpoint = `/advertmind-divisions/${division_id}`;
+              const endpoint = `company/${company_id}/advertmind-divisions/${division_id}`;
               const response = await this._sendRequest({
                 endpoint: endpoint,
                 type: 'DELETE',
